@@ -240,10 +240,13 @@ setInterval(checkAlarms,15000);
 setTimeout(checkAlarms,1000);
 
 // === CONFIRM DIALOG ===
+let pendingAction=null;
 function confirmAction(msg,onYes){
+  pendingAction=onYes;
   const root=document.getElementById("confirm-root");
-  root.innerHTML=`<div class="confirm-overlay"><div class="confirm-box"><p>${msg}</p><div class="btns"><button onclick="closeConfirm()">Cancelar</button><button class="btn-danger" onclick="closeConfirm();(${onYes.toString()})()">Eliminar</button></div></div></div>`;
+  root.innerHTML=`<div class="confirm-overlay"><div class="confirm-box"><p>${msg}</p><div class="btns"><button onclick="closeConfirm()">Cancelar</button><button class="btn-danger" onclick="runConfirm()">Eliminar</button></div></div></div>`;
 }
+function runConfirm(){closeConfirm();if(pendingAction){pendingAction();pendingAction=null}}
 function closeConfirm(){document.getElementById("confirm-root").innerHTML=""}
 
 // === HELPERS ===
